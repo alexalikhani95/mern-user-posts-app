@@ -1,20 +1,13 @@
 const express = require("express");
 const router = express.Router(); // Router instance - complete middleware and routing system
+const { getPosts, createPost, editPost, deletePost } = require("../controllers/postController");
 
-router.get("/", (req, res) => {
-  res.send({ message: "Get Posts!" });
-});
+router.get("/", getPosts);
 
-router.post("/", (req, res) => {
-  res.send({ message: "Create posts" });
-});
+router.post("/", createPost);
 
-router.put("/:id", (req, res) => {
-  res.send({ message: `Update post ${req.params.id}` });
-});
+router.put("/:id", editPost);
 
-router.delete("/:id", (req, res) => {
-  res.send({ message: `Update post ${req.params.id}` });
-});
+router.delete("/:id", deletePost);
 
 module.exports = router;
