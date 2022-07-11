@@ -7,6 +7,7 @@ const getPosts = (req, res) => {
 // Create post
 // route - POST /api/posts
 const createPost = (req, res) => {
+  console.log(req.body);
   res.send({ message: "Create posts" });
 };
 
