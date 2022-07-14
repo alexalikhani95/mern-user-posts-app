@@ -4,6 +4,8 @@ const postSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId, // This type will be an object ID
+      required: true,
+      ref: "User", // reference of which id this pertains to
     },
     text: {
       type: String,
