@@ -1,11 +1,15 @@
 //Using async handler to avoid using try/catches and just use the err handlers
 const asyncHandler = require("express-async-handler");
 
+const Post = require("../models/postModel");
+
 // Get posts
 // Route - GET api/posts
 const getPosts = asyncHandler(async (req, res) => {
-  //Using async with the postcontroller functions as a promise will be sent when mongoose is used with the goalcontroller functions.
-  res.status(200).json({ message: "Get posts" });
+  //Using async with the postcontroller functions as a promise will be sent when mongoose is used with the post controller functions.
+  const posts = await Post.find();
+
+  res.status(200).json(posts);
 });
 
 // Create post
@@ -13,10 +17,16 @@ const getPosts = asyncHandler(async (req, res) => {
 const createPost = asyncHandler(async (req, res) => {
   // If no body text, create a bad request status
   if (!req.body.text) {
+    // If no body text, create a bad request status
     res.status(400);
     throw new Error("Please add a text field");
   }
-  res.status(200).json({ message: "Create Posts" });
+
+  const post = await Post.create({
+    text: req.body.text,
+  });
+
+  res.status(200).json(post);
 });
 
 // Edit post
