@@ -6,6 +6,12 @@ const User = require("../models/userModel");
 // Register new user
 // POST /api/users
 const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body; // The body data from when a request is made to create a user
+
+  if (!name || !email || !password) {
+    res.status(400); // bad request if no name, email or password
+    throw new Error("Please add all fields");
+  }
   res.json({ message: "Register User" });
 });
 
