@@ -12,6 +12,7 @@ app.use(express.json()); // body parser for raw json
 app.use(express.urlencoded({ extended: false })); // built-in middleware function in Express. It parses incoming requests with urlencoded payloads and is based on body-parser.
 
 app.use("/api/posts", require("./routes/postRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
 
 app.use(errorHandler);
 
