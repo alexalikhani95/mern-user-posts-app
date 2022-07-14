@@ -32,12 +32,30 @@ const createPost = asyncHandler(async (req, res) => {
 // Edit post
 // Route - PUT /api/posts/:id
 const editPost = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Edit post ${req.params.id}` });
+  const post = await Post.findById(req.params.id);
+
+  if (!post) {
+    res.status(400);
+    throw new Error("Post not found");
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true }); // req.body will be the updated text
+
+  res.status(200).json(updatedPost);
 });
 
 // delete post
 // route - DELETE /api/posts/:id
 const deletePost = asyncHandler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+
+  if (!post) {
+    res.status(400);
+    throw new Error("Post not found");
+  }
+
+  await post.remove();
+
   res.status(200).json({ message: `Delete post ${req.params.id}` });
 });
 
