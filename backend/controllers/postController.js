@@ -40,6 +40,20 @@ const editPost = asyncHandler(async (req, res) => {
     throw new Error("Post not found");
   }
 
+  const user = await User.findById(req.user.id);
+
+  //Check for user
+  if (!user) {
+    res.status(401); // not authorised
+    throw new Error("User not found");
+  }
+
+  // Make sure the logged in user matches the goal user
+  if (goal.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true }); // req.body will be the updated text
 
   res.status(200).json(updatedPost);
