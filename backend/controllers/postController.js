@@ -1,6 +1,6 @@
 //Using async handler to avoid using try/catches and just use the err handlers
 const asyncHandler = require("express-async-handler");
-
+const User = require("../models/userModel");
 const Post = require("../models/postModel");
 
 // Get posts
@@ -40,13 +40,15 @@ const editPost = asyncHandler(async (req, res) => {
     throw new Error("Post not found");
   }
 
+  const user = await User.findById(req.user.id);
+
   //Check for user
-  if (!req.user) {
+  if (user) {
     res.status(401); // not authorised
     throw new Error("User not found");
   }
 
-  // Make sure the logged in user matches the goal user
+  // Make sure the logged in user matches the post user
   if (post.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error("User not authorized");
@@ -65,6 +67,20 @@ const deletePost = asyncHandler(async (req, res) => {
   if (!post) {
     res.status(400);
     throw new Error("Post not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  //Check for user
+  if (!user) {
+    res.status(401); // not authorised
+    throw new Error("User not found");
+  }
+
+  // Make sure the logged in user matches the post user
+  if (post.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   await post.remove();
