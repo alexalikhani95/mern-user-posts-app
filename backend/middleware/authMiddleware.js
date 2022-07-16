@@ -6,7 +6,7 @@ const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   //authorisation object from the headers
-  //check if it starts with a bearer - when the toke is sent in the authorisation headers, it should start with bearer
+  //check if it starts with a bearer - when the token is sent in the authorisation headers, it should start with bearer
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
     try {
       // Turn into an array where the text 'bearer' is the first item and token is the second item

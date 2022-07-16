@@ -7,7 +7,7 @@ const Post = require("../models/postModel");
 // Route - GET api/posts
 const getPosts = asyncHandler(async (req, res) => {
   //Using async with the postcontroller functions as a promise will be sent when mongoose is used with the post controller functions.
-  const posts = await Post.find();
+  const posts = await Post.find({ user: req.user.id });
 
   res.status(200).json(posts);
 });
