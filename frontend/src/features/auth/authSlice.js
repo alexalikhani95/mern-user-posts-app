@@ -1,6 +1,7 @@
 // creatSlice is a function that accepts an initial state, an object of reducer functions and a slice name.
 // It then automatically generates action creators and action types that correspond to the reducers and state.
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import authService from "./authService";
 
 // Get user from local storage
 const user = JSON.parse(localStorage.getItem("user"));
@@ -12,6 +13,20 @@ const initialState = {
   isLoading: false,
   message: "",
 };
+
+// Register user
+export const register = createAsyncThunk("auth/register", async (user, thunkAPI) => {
+  try {
+    return await authService.register(user);
+  } catch (error) {
+    const message =
+      // If any of this exists, it will be put into this variable
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message); // This will reject and send the error message as the payload
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",
