@@ -1,5 +1,6 @@
-// creatSlice is a function that accepts an initial state, an object of reducer functions and a slice name.
+// createSlice is a function that accepts an initial state, an object of reducer functions and a slice name.
 // It then automatically generates action creators and action types that correspond to the reducers and state.
+// createAsyncThunk - A function that accepts a Redux action type string and a callback function that should return a promise.
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
